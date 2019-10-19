@@ -10,10 +10,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,6 +34,17 @@ public class Robot extends TimedRobot {
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  WPI_TalonSRX frontRightDrive = new WPI_TalonSRX(1);
+  WPI_TalonSRX frontLeftDrive = new WPI_TalonSRX(2);
+  WPI_TalonSRX backRightDrive = new WPI_TalonSRX(3);
+  WPI_TalonSRX backLeftDrive = new WPI_TalonSRX(4);
+
+  DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
+
+
+  private final Joystick m_stick = new Joystick(0);
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -112,6 +129,21 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    frontLeftDrive.configFactoryDefault();
+    frontRightDrive.configFactoryDefault();
+    backLeftDrive.configFactoryDefault();
+    backRightDrive.configFactoryDefault();
+
+    backLeftDrive.follow(frontLeftDrive);
+    backRightDrive.follow(frontRightDrive);
+
+    frontLeftDrive.setInverted(false);
+    frontRightDrive.setInverted(true);
+    backLeftDrive.setInverted(InvertType.FollowMaster);
+    backRightDrive.setInverted(InvertType.FollowMaster);
+
+    drive.setRightSideInverted(false);
   }
 
   /**
@@ -120,6 +152,28 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    /* Gamepad processing */
+		double forward = -1.0 * m_stick.getY();	// Sign this so forward is positive
+		double turn = +1.0 * m_stick.getZ();       // Sign this so right is positive
+        
+        /* Deadband - within 10% joystick, make it zero */
+		if (Math.abs(forward) < 0.10) {
+			forward = 0;
+		}
+		if (Math.abs(turn) < 0.10) {
+			turn = 0;
+		}
+        
+		/**
+		 * Print the joystick values to sign them, comment
+		 * out this line after checking the joystick directions. 
+		 */
+        System.out.println("JoyY:" + forward + "  turn:" + turn );
+        
+		/**
+		 * Drive the robot, 
+		 */
+		drive.arcadeDrive(forward, turn);
   }
 
   /**
