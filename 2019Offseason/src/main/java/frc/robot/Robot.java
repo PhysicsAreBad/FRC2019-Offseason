@@ -37,13 +37,9 @@ public class Robot extends TimedRobot {
 
   WPI_TalonSRX frontRightDrive = new WPI_TalonSRX(1);
   WPI_TalonSRX frontLeftDrive = new WPI_TalonSRX(2);
-  WPI_TalonSRX backRightDrive = new WPI_TalonSRX(3);
-  WPI_TalonSRX backLeftDrive = new WPI_TalonSRX(4);
 
   DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
 
-
-  private final Joystick m_stick = new Joystick(0);
 
 
   /**
@@ -118,6 +114,22 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    drive.arcadeDrive(1,0);
+    try {
+      wait(5);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      System.out.println("Wait Error!");
+    }
+    drive.arcadeDrive(0, 0);
+    try {
+      wait(5);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      System.out.println("Wait Error!");
+    }
   }
 
   @Override
@@ -132,16 +144,9 @@ public class Robot extends TimedRobot {
 
     frontLeftDrive.configFactoryDefault();
     frontRightDrive.configFactoryDefault();
-    backLeftDrive.configFactoryDefault();
-    backRightDrive.configFactoryDefault();
-
-    backLeftDrive.follow(frontLeftDrive);
-    backRightDrive.follow(frontRightDrive);
 
     frontLeftDrive.setInverted(false);
     frontRightDrive.setInverted(true);
-    backLeftDrive.setInverted(InvertType.FollowMaster);
-    backRightDrive.setInverted(InvertType.FollowMaster);
 
     drive.setRightSideInverted(false);
   }
@@ -153,27 +158,27 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     /* Gamepad processing */
-		double forward = -1.0 * m_stick.getY();	// Sign this so forward is positive
+	/*	double forward = -1.0 * m_stick.getY();	// Sign this so forward is positive
 		double turn = +1.0 * m_stick.getZ();       // Sign this so right is positive
         
-        /* Deadband - within 10% joystick, make it zero */
+        // Deadband - within 10% joystick, make it zero
 		if (Math.abs(forward) < 0.10) {
 			forward = 0;
 		}
 		if (Math.abs(turn) < 0.10) {
 			turn = 0;
-		}
+    }*/
         
 		/**
 		 * Print the joystick values to sign them, comment
 		 * out this line after checking the joystick directions. 
 		 */
-        System.out.println("JoyY:" + forward + "  turn:" + turn );
+       // System.out.println("JoyY:" + forward + "  turn:" + turn );
         
 		/**
 		 * Drive the robot, 
 		 */
-		drive.arcadeDrive(forward, turn);
+		//drive.arcadeDrive(forward, turn);
   }
 
   /**
