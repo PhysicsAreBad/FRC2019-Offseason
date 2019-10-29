@@ -35,12 +35,12 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  WPI_TalonSRX frontRightDrive = new WPI_TalonSRX(1);
+  WPI_TalonSRX frontRightDrive = new WPI_TalonSRX(3);
   WPI_TalonSRX frontLeftDrive = new WPI_TalonSRX(2);
 
   DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
 
-
+  double startTime = 0;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    drive.arcadeDrive(1,0);
+    drive.arcadeDrive(0.2,0);
     try {
       wait(5);
     } catch (InterruptedException e) {
@@ -186,5 +186,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    startCompetition();
+    Scheduler.getInstance().run();
+   if ((System.currentTimeMillis() - startTime >= 500) && (System.currentTimeMillis() - startTime < 1000)) {
+    frontLeftDrive.set(0.5);
+    frontRightDrive.set(0.5);
+   } else if (System.currentTimeMillis() - startTime >= 1000) {
+    frontLeftDrive.set(0);
+    frontRightDrive.set(0);
+    startTime = System.currentTimeMillis();
+   } else {
+     System.out.println("Test");
+   }
   }
 }
