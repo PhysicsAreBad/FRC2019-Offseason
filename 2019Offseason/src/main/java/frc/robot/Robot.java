@@ -10,16 +10,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.DriveForward;
+import frc.robot.subsystems.DriveTrain;
 
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
-import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,18 +24,10 @@ import edu.wpi.first.wpilibj.Joystick;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+  public static DriveTrain driveTrain = new DriveTrain();
   public static OI m_oi;
 
-  Command m_autonomousCommand;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
-
-  WPI_TalonSRX frontRightDrive = new WPI_TalonSRX(3);
-  WPI_TalonSRX frontLeftDrive = new WPI_TalonSRX(2);
-
-  DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
-
-  double startTime = 0;
+  Command driveForward;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -48,10 +35,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+    driveForward = new DriveForward();
+    SmartDashboard.putData(driveTrain);
   }
 
   /**
@@ -93,7 +78,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -103,8 +87,9 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
+    
+    if (driveForward != null) {
+      driveForward.start();
     }
   }
 
@@ -114,22 +99,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    drive.arcadeDrive(0.2,0);
-    try {
-      wait(5);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-      System.out.println("Wait Error!");
-    }
-    drive.arcadeDrive(0, 0);
-    try {
-      wait(5);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-      System.out.println("Wait Error!");
-    }
   }
 
   @Override
@@ -138,17 +107,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (driveForward != null) {
+      driveForward.cancel();
     }
-
-    frontLeftDrive.configFactoryDefault();
-    frontRightDrive.configFactoryDefault();
-
-    frontLeftDrive.setInverted(false);
-    frontRightDrive.setInverted(true);
-
-    drive.setRightSideInverted(false);
   }
 
   /**
@@ -186,17 +147,5 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    startCompetition();
-    Scheduler.getInstance().run();
-   if ((System.currentTimeMillis() - startTime >= 500) && (System.currentTimeMillis() - startTime < 1000)) {
-    frontLeftDrive.set(0.5);
-    frontRightDrive.set(0.5);
-   } else if (System.currentTimeMillis() - startTime >= 1000) {
-    frontLeftDrive.set(0);
-    frontRightDrive.set(0);
-    startTime = System.currentTimeMillis();
-   } else {
-     System.out.println("Test");
-   }
   }
 }
