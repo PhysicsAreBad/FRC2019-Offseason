@@ -25,6 +25,8 @@ public class RobotMap {
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
-  public static WPI_TalonSRX rightMotor = new WPI_TalonSRX(2);
-  public static WPI_TalonSRX leftMotor = new WPI_TalonSRX(3);
+  public static WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(4);
+  public static WPI_TalonSRX backRightMotor = new WPI_TalonSRX(3);
+  public static WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(1);
+  public static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(2);
 }

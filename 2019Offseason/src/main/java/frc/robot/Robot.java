@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveForward;
+import frc.robot.commands.Turn90Degrees;
 import frc.robot.subsystems.DriveTrain;
 
 
@@ -27,6 +28,7 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
 
   Command driveForward;
+  Command turn90Degrees;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -35,6 +37,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     driveForward = new DriveForward();
+    turn90Degrees = new Turn90Degrees();
     SmartDashboard.putData(driveTrain);
   }
 
@@ -86,9 +89,11 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    
     if (driveForward != null) {
       driveForward.start();
+    }
+    if(turn90Degrees != null) {
+      turn90Degrees.start();
     }
   }
 

@@ -11,10 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveForward extends Command {
+public class Turn90Degrees extends Command {
   DriveTrain driveTrain = Robot.driveTrain;
-  boolean commandRun = false;
-  public DriveForward() {
+  public Turn90Degrees() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(driveTrain);
@@ -25,7 +24,7 @@ public class DriveForward extends Command {
   @Override
   protected void initialize() {
     driveTrain.init();
-    driveTrain.forward(0.5);
+    driveTrain.turn(0.2, 0.5);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -49,6 +48,6 @@ public class DriveForward extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
+    driveTrain.stop();
   }
 }
