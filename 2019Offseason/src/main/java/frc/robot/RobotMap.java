@@ -29,4 +29,6 @@ public class RobotMap {
   public static WPI_TalonSRX backRightMotor = new WPI_TalonSRX(3);
   public static WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(1);
   public static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(2);
+
+  public static WPI_TalonSRX lift = new WPI_TalonSRX(99);
 }

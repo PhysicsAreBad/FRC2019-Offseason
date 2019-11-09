@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.Turn90Degrees;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Lift;
 
 
 /**
@@ -25,6 +26,7 @@ import frc.robot.subsystems.DriveTrain;
  */
 public class Robot extends TimedRobot {
   public static DriveTrain driveTrain = new DriveTrain();
+  public static Lift lift = new Lift();
   public static OI m_oi;
 
   Command driveForward;
