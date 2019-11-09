@@ -9,6 +9,8 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -31,4 +33,7 @@ public class RobotMap {
   public static WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(2);
 
   public static WPI_TalonSRX lift = new WPI_TalonSRX(99);
+
+  public static DigitalInput liftUpSwitch = new DigitalInput(1);
+  public static DigitalInput liftDownSwitch = new DigitalInput(2);
 }

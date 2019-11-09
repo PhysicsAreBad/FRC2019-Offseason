@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -19,6 +20,8 @@ import frc.robot.RobotMap;
 public class Lift extends Subsystem {
 
   public WPI_TalonSRX lift = RobotMap.lift;
+  public DigitalInput forwardSwitch = RobotMap.liftUpSwitch;
+  public DigitalInput reverseSwitch = RobotMap.liftDownSwitch;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
