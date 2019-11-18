@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DriveForward;
-import frc.robot.commands.Turn90Degrees;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Lift;
 
@@ -27,10 +27,10 @@ import frc.robot.subsystems.Lift;
 public class Robot extends TimedRobot {
   public static DriveTrain driveTrain = new DriveTrain();
   public static Lift lift = new Lift();
-  public static OI m_oi;
+  public static OI oi;
 
   Command driveForward;
-  Command turn90Degrees;
+  Command arcadeDrive;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -39,7 +39,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     driveForward = new DriveForward();
-    turn90Degrees = new Turn90Degrees();
+    oi = new OI();
+    arcadeDrive = new ArcadeDrive();
     SmartDashboard.putData(driveTrain);
   }
 
@@ -94,9 +95,6 @@ public class Robot extends TimedRobot {
     if (driveForward != null) {
       driveForward.start();
     }
-    if(turn90Degrees != null) {
-      turn90Degrees.start();
-    }
   }
 
   /**
@@ -116,6 +114,10 @@ public class Robot extends TimedRobot {
     if (driveForward != null) {
       driveForward.cancel();
     }
+    if (arcadeDrive != null) {
+      arcadeDrive.start();
+    }
+    startCompetition();
   }
 
   /**
@@ -125,27 +127,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     /* Gamepad processing */
-	/*	double forward = -1.0 * m_stick.getY();	// Sign this so forward is positive
-		double turn = +1.0 * m_stick.getZ();       // Sign this so right is positive
-        
-        // Deadband - within 10% joystick, make it zero
-		if (Math.abs(forward) < 0.10) {
-			forward = 0;
-		}
-		if (Math.abs(turn) < 0.10) {
-			turn = 0;
-    }*/
-        
-		/**
-		 * Print the joystick values to sign them, comment
-		 * out this line after checking the joystick directions. 
-		 */
-       // System.out.println("JoyY:" + forward + "  turn:" + turn );
-        
-		/**
-		 * Drive the robot, 
-		 */
-		//drive.arcadeDrive(forward, turn);
   }
 
   /**

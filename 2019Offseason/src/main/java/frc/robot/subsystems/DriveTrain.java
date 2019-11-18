@@ -61,7 +61,7 @@ public class DriveTrain extends Subsystem {
     frontRightMotor.set(0.5);
   }
 
-  public double turn (double speed, double turn) {
+  public double arcadeDrive(double speed, double turn) {
         /*if (Math.abs(-driveStick.getRawAspeedis(1))<deadZone){
         	turn = 0;
         }*/
