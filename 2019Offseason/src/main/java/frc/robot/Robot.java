@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.DriveForward;
@@ -31,6 +32,8 @@ public class Robot extends TimedRobot {
 
   Command driveForward;
   Command arcadeDrive;
+
+  //public static DifferentialDrive diffDrive;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -114,10 +117,6 @@ public class Robot extends TimedRobot {
     if (driveForward != null) {
       driveForward.cancel();
     }
-    if (arcadeDrive != null) {
-      arcadeDrive.start();
-    }
-    startCompetition();
   }
 
   /**

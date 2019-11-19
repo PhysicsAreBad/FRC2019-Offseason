@@ -10,8 +10,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.commands.ArcadeDrive;
 
 /**
  * Add turnour docs here.
@@ -25,11 +29,15 @@ public class DriveTrain extends Subsystem {
   WPI_TalonSRX backLeftMotor = RobotMap.backLeftMotor;
   WPI_TalonSRX backRightMotor = RobotMap.backRightMotor;
 
+  SpeedControllerGroup left = new SpeedControllerGroup(frontLeftMotor, backLeftMotor);
+  SpeedControllerGroup right = new SpeedControllerGroup(frontRightMotor, backRightMotor);
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a substurnstem here.
     // setDefaultCommand(new MturnSpecialCommand());
+
+    setDefaultCommand(new ArcadeDrive());
   }
 
   public void init () {
@@ -44,10 +52,8 @@ public class DriveTrain extends Subsystem {
   }
 
   public void forward(double speed) {
-    frontLeftMotor.set(speed);
-    frontRightMotor.set(speed);
-    backLeftMotor.set(speed);
-    backRightMotor.set(speed);
+    left.set(speed);
+    right.set(speed);
   }
 
   public void stop() {
@@ -61,34 +67,8 @@ public class DriveTrain extends Subsystem {
     frontRightMotor.set(0.5);
   }
 
-  public double arcadeDrive(double speed, double turn) {
-        /*if (Math.abs(-driveStick.getRawAspeedis(1))<deadZone){
-        	turn = 0;
-        }*/
-        double leftOutput;
-        double rightOutput;
-        if (turn > 0) {
-            if (speed > 0.0) {
-                leftOutput = Math.pow(turn, 1) - Math.pow(speed, 1);
-                rightOutput = Math.max(Math.pow(turn, 1), Math.pow(speed, 1));
-            } else {
-                leftOutput = Math.max(Math.pow(turn, 1), -(Math.pow(speed, 1)));
-                rightOutput = Math.pow(turn, 1) + (Math.pow(speed, 1));
-            }
-        } else{
-            if (speed > 0.0) {
-                leftOutput = -Math.max(-(Math.pow(turn, 1)), Math.pow(speed, 1));
-                rightOutput = (Math.pow(turn, 1)) + Math.pow(speed, 1);
-            } else {
-            	//this is also vvv imborktant
-                leftOutput = (Math.pow(turn, 1)) - (Math.pow(speed, 1));
-                rightOutput = -Math.max(-(Math.pow(turn, 1)), -(Math.pow(speed, 1)));
-            }
-      }
-      frontLeftMotor.set(leftOutput);
-      frontRightMotor.set(rightOutput);
-      backLeftMotor.set(leftOutput);
-      backRightMotor.set(rightOutput);
-      return leftOutput;
+  public void arcadeDrive(double speed1, double speed2) {
+        left.set(speed1);
+        right.set(speed2);
   }
 }

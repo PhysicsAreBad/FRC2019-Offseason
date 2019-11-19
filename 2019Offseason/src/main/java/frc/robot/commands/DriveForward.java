@@ -25,7 +25,7 @@ public class DriveForward extends Command {
   @Override
   protected void initialize() {
     driveTrain.init();
-    driveTrain.forward(0.5);
+    driveTrain.forward(0.1);
   }
 
   // Called repeatedly when this Command is scheduled to run
