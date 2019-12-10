@@ -9,41 +9,38 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.Cylinder;
 
-public class LiftDown extends Command {
-  public Lift lift = Robot.lift;
-  boolean stop = false;
-  public LiftDown() {
+public class CylinderReverse extends Command {
+  Cylinder cylinder = Robot.cylinder;
+  public CylinderReverse() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(lift);
+    requires(cylinder);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    lift.initDefaultCommand();
-    lift.liftDown();
+    cylinder.off();
+    cylinder.reverse();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    stop = RobotMap.liftDownSwitch.get();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return stop;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    lift.liftStop();
+    cylinder.off();
   }
 
   // Called when another command which requires one or more of the same

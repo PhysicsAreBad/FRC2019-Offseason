@@ -36,4 +36,9 @@ public class RobotMap {
 
   public static DigitalInput liftUpSwitch = new DigitalInput(1);
   public static DigitalInput liftDownSwitch = new DigitalInput(2);
+
+  public static final int PCM = 98;
+
+  public static final int solenoid1Channel1 = 0;
+  public static final int solenoid1Channel2 = 1;
 }

@@ -12,10 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.TankDrive;
 
 /**
  * Add turnour docs here.
@@ -37,7 +35,7 @@ public class DriveTrain extends Subsystem {
     // Set the default command for a substurnstem here.
     // setDefaultCommand(new MturnSpecialCommand());
 
-    setDefaultCommand(new ArcadeDrive());
+    setDefaultCommand(new TankDrive());
   }
 
   public void init () {
@@ -67,7 +65,7 @@ public class DriveTrain extends Subsystem {
     frontRightMotor.set(0.5);
   }
 
-  public void arcadeDrive(double speed1, double speed2) {
+  public void tankDrive(double speed1, double speed2) {
         left.set(speed1);
         right.set(speed2);
   }

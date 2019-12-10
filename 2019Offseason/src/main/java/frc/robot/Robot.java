@@ -10,10 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.TankDrive;
 import frc.robot.commands.DriveForward;
+import frc.robot.subsystems.Cylinder;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Lift;
 
@@ -28,6 +28,7 @@ import frc.robot.subsystems.Lift;
 public class Robot extends TimedRobot {
   public static DriveTrain driveTrain = new DriveTrain();
   public static Lift lift = new Lift();
+  public static Cylinder cylinder = new Cylinder();
   public static OI oi;
 
   Command driveForward;
@@ -43,7 +44,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     driveForward = new DriveForward();
     oi = new OI();
-    arcadeDrive = new ArcadeDrive();
+    arcadeDrive = new TankDrive();
     SmartDashboard.putData(driveTrain);
   }
 

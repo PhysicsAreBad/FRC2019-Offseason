@@ -8,6 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.CylinderForward;
+import frc.robot.commands.CylinderReverse;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -16,8 +20,12 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OI {
   public Joystick stick = new Joystick(0);
   public Joystick stick2 = new Joystick(1);
+  public Button cylinderForward = new JoystickButton(stick, 3);
+  public Button cylinderReverse = new JoystickButton(stick, 4);
 
   public OI() {
+    cylinderForward.whileHeld(new CylinderForward());
+    cylinderReverse.whileHeld(new CylinderReverse());
   }
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a

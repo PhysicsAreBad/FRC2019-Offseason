@@ -9,34 +9,26 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Cylinder;
 
-public class ArcadeDrive extends Command {
-  DriveTrain driveTrain = Robot.driveTrain;  
-  public ArcadeDrive() {
+public class CylinderForward extends Command {
+  Cylinder cylinder = Robot.cylinder;
+  public CylinderForward() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(driveTrain);
+    requires(cylinder);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    driveTrain.init();
+    cylinder.off();
+    cylinder.forward();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double stick1 = Robot.oi.stick.getY();
-    double stick2 = Robot.oi.stick2.getY();
-    /*if (stick1 <= 0.2 || stick1 >= -0.2) {
-      stick1 = 0;
-    }
-    if (stick2 <= 0.2 || stick2 >= -0.2) {
-      stick2 = 0;
-    }*/
-    driveTrain.arcadeDrive(-stick1*0.5, -stick2*0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -48,7 +40,7 @@ public class ArcadeDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    driveTrain.arcadeDrive(0, 0);
+    cylinder.off();
   }
 
   // Called when another command which requires one or more of the same

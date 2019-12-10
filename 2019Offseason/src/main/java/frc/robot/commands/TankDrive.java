@@ -9,41 +9,46 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
-import frc.robot.subsystems.Lift;
+import frc.robot.subsystems.DriveTrain;
 
-public class LiftDown extends Command {
-  public Lift lift = Robot.lift;
-  boolean stop = false;
-  public LiftDown() {
+public class TankDrive extends Command {
+  DriveTrain driveTrain = Robot.driveTrain;  
+  public TankDrive() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(lift);
+    requires(driveTrain);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    lift.initDefaultCommand();
-    lift.liftDown();
+    driveTrain.init();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    stop = RobotMap.liftDownSwitch.get();
+    double stick1 = Robot.oi.stick.getY();
+    double stick2 = Robot.oi.stick2.getY();
+    if (stick1 <= 0.2 && stick1 >= -0.2) {
+      stick1 = 0;
+    }
+    if (stick2 <= 0.2 && stick2 >= -0.2) {
+      stick2 = 0;
+    }
+    driveTrain.tankDrive(-stick1*0.5, -stick2*0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return stop;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    lift.liftStop();
+    driveTrain.tankDrive(0, 0);
   }
 
   // Called when another command which requires one or more of the same

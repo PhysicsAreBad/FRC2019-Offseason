@@ -9,15 +9,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.Lift;
 
 public class LiftUp extends Command {
   public Lift lift = Robot.lift;
+
+  boolean stop = false;
   public LiftUp() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(lift);
-    setTimeout(5);
   }
 
   // Called just before this Command runs the first time
@@ -30,12 +32,13 @@ public class LiftUp extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    stop = RobotMap.liftUpSwitch.get();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return isTimedOut();
+    return stop;
   }
 
   // Called once after isFinished returns true
@@ -48,6 +51,6 @@ public class LiftUp extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    lift.liftStop();
+    end();
   }
 }
